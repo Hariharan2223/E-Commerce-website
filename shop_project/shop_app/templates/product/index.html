@@ -1,0 +1,49 @@
+{% extends 'layouts/base.html'%}
+{% block title %}
+ShopCart | Online Shopping 
+{% endblock %}
+
+
+{% block content %}
+
+    <section class="bg-light py-4 my-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h4 class="mb-3">{{category}} Products</h4>
+                    <hr style="border-color: #b8bfc2;">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                          <li class="breadcrumb-item"><a href="{% url 'Home'%}">Home</a></li>
+                          <li class="breadcrumb-item active" aria-current="page">{{category}} Collections</li>
+                        </ol>
+                    </nav>
+                    {% include 'layouts/message.html' %}
+                </div>
+                {% for item in products %}
+<div class="col-md-4 col-lg-3">
+    <a href="{% url 'product_details' category item.name %}">
+        <div class="card my-3">
+            <img src="{{ item.product_image.url }}" class="card-img-top img-fluid" style="height: 200px; object-fit: cover;" alt="Categories">
+            <div class="card-body">
+                <h5 class="card-title text-primary">{{ item.name }}</h5>
+                <hr>
+                <p class="card-text">
+                    <span class="float-start fw-bold text-danger">
+                        <s>Rs. {{ item.original_price|stringformat:'d' }}</s>
+                    </span>
+                    <span class="float-end fw-bold text-light bg-success p-1 rounded-3">
+                        Rs. {{ item.selling_price|stringformat:'d' }}
+                    </span>
+                </p>
+            </div>
+        </div>
+    </a>
+</div>
+{% endfor %}
+
+
+            </div>
+        </div>
+    </section>
+{% endblock %}  
