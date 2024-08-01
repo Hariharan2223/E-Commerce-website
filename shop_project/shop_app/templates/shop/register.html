@@ -1,0 +1,48 @@
+{% extends 'layouts/base.html' %}
+{% block title %}
+Registration | ShopCart
+{% endblock %}
+{% block content %}
+<div class="container d-flex justify-content-center" style="margin-top: 80px; ">
+    <div class="col-md-6 p-4 mb-4 border rounded-3" style="background: linear-gradient(to right, rgba(148, 0, 211, 0.7), rgba(192, 192, 192, 0.5));">
+        <h4 class="mb-3 text-center">Register Now</h4>
+        <hr style="border-color: rgb(197, 197, 197);">
+        {% include 'layouts/message.html' %}
+        <section class="py-2 my-1">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="mb-2">
+                    <label for="username" class="form-label">User Name:</label>
+                    {{ form.username }}
+                    {% if form.errors.username %}
+                    <div class="text-danger">{{ form.errors.username }}</div>
+                    {% endif %}
+                </div>
+                <div class="mb-2">
+                    <label for="email" class="form-label">Email:</label>
+                    {{ form.email }}
+                    {% if form.errors.email %}
+                    <div class="text-danger">{{ form.errors.email }}</div>
+                    {% endif %}
+                </div>
+                <div class="mb-2">
+                    <label for="password1" class="form-label">Password:</label>
+                    {{ form.password1 }}
+                    {% if form.errors.password1 %}
+                    <div class="text-danger">{{ form.errors.password1 }}</div>
+                    {% endif %}
+                </div>
+                <div class="mb-2">
+                    <label for="password2" class="form-label">Re-Enter Password:</label>
+                    {{ form.password2 }}
+                    {% if form.errors.password2 %}
+                    <div class="text-danger">{{ form.errors.password2 }}</div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Register</button>
+            </form>
+            <p class="my-2 text-center">Already a user? <a href="{% url 'login' %}">Login Now</a></p>
+        </section>
+    </div>
+</div>
+{% endblock %}
