@@ -1,0 +1,14 @@
+{% for msg in messages %}
+<div class="alert alert-info alert-dismissible fade show container" style="padding: 10px; color: white; margin-top: 70px;background-color: rgba(238, 34, 34, 0.596); font-weight: bold; font-size: 20px;">
+    {{msg}}
+<h1 style="background-color: rgba(238, 34, 34, 0.596);"></h1>
+
+</div>
+<script>
+    $(document).ready(function() {
+        // alert('hi');
+        $('.alert').hide(4000);
+    });
+</script>
+
+{% endfor %}
