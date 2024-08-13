@@ -1,0 +1,73 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+{% block title %}
+Shared Wishlist | Online Shopping
+{% endblock %}
+
+{% block content %}
+{% include 'layouts/message.html' %}
+<section class="bg-light py-4 my-5" style="min-height: 500px;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="mb-3">{{ owner.username }}'s Wishlist</h4>
+                <hr style="border-color: #b8bfc2;">
+                {% if wishlist.items.all %}
+                <div class="row">
+                    {% for item in wishlist.items.all %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="{{ item.product.images.first.image.url }}" class="card-img-top" alt="{{ item.product.name }}" style="object-fit: contain;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ item.product.name }}</h5>
+                                <p class="card-text">Price: Rs. {{ item.product.selling_price }}</p>
+                                <a href="{% url 'product_details' cname=item.product.category.name pname=item.product.name %}" class="btn btn-primary">View Details</a>
+                                <a href="{% url 'add_to_wishlist' %}" class="btn btn-success mt-2 add-to-wishlist" data-product-id="{{ item.product.id }}">Add to My Wishlist</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p>No items in this shared wishlist.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.add-to-wishlist').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const productId = this.getAttribute('data-product-id');
+    
+                fetch("{% url 'add_to_wishlist' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ 'pid': productId })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'Success') {
+                        alert('Product added to your wishlist');
+                    } else if (data.status === 'Redirect') {
+                        const currentUrl = window.location.href;
+                        const loginUrl = data.redirect_url + '?next=' + encodeURIComponent(currentUrl);
+                        window.location.href = loginUrl;
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            });
+        });
+    });
+    </script>
+{% endblock %}

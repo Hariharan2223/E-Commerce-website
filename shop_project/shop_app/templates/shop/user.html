@@ -1,0 +1,90 @@
+{% extends 'layouts/base.html'%}
+{% block title %}
+User page | ShopCart
+{% endblock %}
+
+{% block content%}
+    <h1 style="margin-top: 100px; text-align: center;">Welcome!! {{user | upper}}</h1>
+
+    <div class="container mt-5">
+        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample1" aria-expanded="false" aria-controls="collapseWidthExample1">
+            Your Orders
+        </button>
+    <hr>
+
+    <div style="min-height: 320px;">
+        <div class="collapse collapse-horizontal" id="collapseWidthExample1">
+            <div class="row">
+                {% if orders %}
+                    {% for order in orders %}
+                        <div class="col-md-6 mb-4 d-flex align-items-stretch">
+                            <div class="card w-100">
+                                <div class="card-header">
+                                    <strong>Order ID:</strong> {{ order.id }}<br>
+                                    <strong>Date:</strong> {{ order.created_at|date:"F d, Y H:i" }}<br>
+                                    <strong>Status:</strong> <span class="badge badge-secondary">{{ order.status }}</span>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <h4 class="card-title">Items:</h4>
+                                    {% if order.items.count > 1 %}
+                                        <div id="carousel-{{ order.id }}" class="carousel slide flex-grow-1" data-bs-ride="carousel">
+                                            <div class="carousel-inner">
+                                                {% for item in order.items.all %}
+                                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <img src="{{ item.product.images.first.image.url }}" class="img-fluid" alt="{{ item.product.name }}" style="max-height: 100px; object-fit: contain;">
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <h5>{{ item.product.name }}</h5>
+                                                            <p>Quantity: {{ item.quantity }}</p>
+                                                            <p>Price: ${{ item.price }}</p>
+                                                        </div>
+                                                        <div class="col-md-3 d-flex align-items-center justify-content-end">
+                                                            <a href="{% url 'product_details' item.product.category.name item.product.name %}" class="btn btn-primary">View Details</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% endfor %}
+                                            </div>
+                                            <a class="carousel-control-prev" href="#carousel-{{ order.id }}" role="button" data-bs-slide="prev">
+                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Previous</span>
+                                            </a>
+                                            <a class="carousel-control-next" href="#carousel-{{ order.id }}" role="button" data-bs-slide="next">
+                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                <span class="visually-hidden">Next</span>
+                                            </a>
+                                        </div>
+                                    {% else %}
+                                        {% for item in order.items.all %}
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <img src="{{ item.product.images.first.image.url }}" class="img-fluid" alt="{{ item.product.name }}" style="max-height: 100px; object-fit: contain;">
+                                            </div>
+                                            <div class="col-md-5">
+                                                <h5>{{ item.product.name }}</h5>
+                                                <p>Quantity: {{ item.quantity }}</p>
+                                                <p>Price: ${{ item.price }}</p>
+                                            </div>
+                                            <div class="col-md-3 d-flex align-items-center justify-content-end">
+                                                <a href="{% url 'product_details' item.product.category.name item.product.name %}" class="btn btn-primary">View Details</a>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>You have no orders.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    
+{% endblock %}
