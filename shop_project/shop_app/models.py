@@ -3,7 +3,7 @@ import datetime,os
 from django.contrib.auth.models import User
 import uuid
 from django.urls import reverse
-# Create your models here.
+
 
 def getFileName(request,filename):
     now_time=datetime.datetime.now().strftime("%Y%m%d%H:%M:%S:")

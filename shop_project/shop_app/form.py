@@ -5,6 +5,9 @@ from django.contrib.auth.forms import PasswordResetForm, SetPasswordForm
 from .models import User
 from django import forms
 from .models import Wishlist
+
+
+
 class CustomuserForm(UserCreationForm):
     username=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter User Name'}))
     email=forms.CharField(widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter Email Address'}))
@@ -20,6 +23,10 @@ class CheckoutForm(forms.Form):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     address = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'})) 
+    # def send_email(self):
+    #     send_review_email_task.delay(
+    #     self.cleaned_data['name'], self.cleaned_data['email'], self.cleaned_data['review'])
 
 
 

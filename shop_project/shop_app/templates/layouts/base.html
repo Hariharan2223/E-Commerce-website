@@ -10,9 +10,15 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="icon" type="image/x-icon" href="{% static 'images/shopcartlogo.png' %}">
     <link rel="stylesheet" href="{% static 'css/search_results.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <style>
+     
+
+    </style>
 
 </head>
 <body>
+    
     {% include 'layouts/navbar.html' %}
     
     {% block content %}{% endblock %}  
@@ -27,6 +33,70 @@
 
     {% include 'layouts/footer.html' %}
 
-    <script src="{% static 'js/searchSuggestions.js' %}"></script>
+
+    
+<script>
+    const searchInput = document.getElementById("searchInput");
+    const suggestionsBox = document.getElementById("suggestions");
+    const socket = new WebSocket("ws://127.0.0.1:8000/ws/search/");
+
+    socket.onopen = () => {
+        console.log("WebSocket connection established.");
+    };
+
+    socket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+
+        if (data.suggestions) {
+            suggestionsBox.innerHTML = "";
+
+            data.suggestions.forEach((item) => {
+                const suggestionItem = document.createElement("div");
+                suggestionItem.className = "suggestion-item";
+                suggestionItem.innerHTML = `
+                    <span class="suggestion-name">${item.name}</span>
+                `;
+                suggestionItem.addEventListener("click", () => {
+                    searchInput.value = item.name; 
+                    suggestionsBox.style.display = "none";
+                });
+                suggestionsBox.appendChild(suggestionItem);
+            });
+            suggestionsBox.style.display = "block";
+        }
+    };
+        
+
+    searchInput.addEventListener("input", (event) => {
+        const query = event.target.value.trim();
+        if (query) {
+            socket.send(JSON.stringify({ query: query }));
+        } else {
+            suggestionsBox.style.display = "none"; 
+        }
+    });
+
+    document.addEventListener("click", (event) => {
+        if (!event.target.closest(".search-container")) {
+            suggestionsBox.style.display = "none";
+        }
+    });
+
+    
+    const searchForm = document.getElementById("searchForm");
+    searchForm.addEventListener("submit", (event) => {
+        const query = searchInput.value.trim();
+        if (!query) {
+            event.preventDefault();
+            alert("Please enter a search query.");
+        }
+    });
+</script>
+
+    
+    
+   
+    
+
 </body>
 </html>

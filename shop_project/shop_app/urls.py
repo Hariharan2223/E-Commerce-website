@@ -35,7 +35,7 @@ urlpatterns=[
     
     # search_feature
     path('search/', views.search, name='search'),
-    path('search-suggestions/', views.search_suggestions, name='search_suggestions'),
+    # path('search-suggestions/', views.search_suggestions, name='search_suggestions'),
 
     # password
     path('change_password/', views.change_password, name='change_password'),

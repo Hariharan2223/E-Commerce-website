@@ -13,6 +13,14 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from log_module.logging_config import setup_logging
+
+# Setup logging
+logger = setup_logging()
+
+
+
+
 
 load_dotenv()
 
@@ -35,6 +43,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,6 +52,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shop_app',
+    
 ]
 
 MIDDLEWARE = [
@@ -77,6 +87,32 @@ TEMPLATES = [
 WSGI_APPLICATION = 'shop_project.wsgi.application'
 
 
+
+ASGI_APPLICATION = 'shop_project.asgi.application'
+
+
+
+# CHANNEL_LAYERS = {
+#     "default": {
+#         "BACKEND": "channels_redis.core.RedisChannelLayer",
+#         "CONFIG": {
+#             "hosts": [("127.0.0.1", 6380)],
+#         },
+#     },
+# }
+
+
+
+# WebSocket backend (e.g., Redis)
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer",  # Use Redis for production
+    },
+}
+
+
+
+
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -91,6 +127,31 @@ DATABASES = {
     }
 }
 
+
+
+
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': 'redis://redis_instance:6379/1', 
+#         'OPTIONS': {
+#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+#         }
+#     }
+# }
+
+## Below config is used for running the application in docker
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': config('DB_ENGINE'),
+#         'NAME': config('DB_NAME'),
+#         'USER': config('DB_USER'),
+#         'PASSWORD': config('DB_PASSWORD'),
+#         'HOST': config('DB_HOST', 'db'), 
+#         'PORT': config('DB_PORT', '3306')
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -123,17 +184,21 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+# # Media files settings
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR / 'media'
+
+
 
 MEDIA_URL='/images/'
 MEDIA_ROOT=BASE_DIR/'static'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+
 
 
 # Default primary key field type
@@ -147,6 +212,31 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True 
 EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_USER_PASSWORD')  
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL') 
+
+
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'hariharan2445@gmail.com'
+# EMAIL_HOST_PASSWORD = 'ofvjovvhcovmjujm'
+# EMAIL_PORT = 587
+# EMAIL_USE_TLS = True
+# DEFAULT_FROM_EMAIL = 'hariharan2445@gmail.com'
+
+
+
+
+
+
+
+CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq:5672//'
+
+
+
+
+
+
 
 
 
