@@ -16,18 +16,16 @@ def clear_category_cache(sender, **kwargs):
 
 @receiver(post_save, sender=products_hari)
 def product_stock_update(sender, instance, **kwargs):
-    # Only send a notification if the quantity changes
-    print("hi")
-    # Check if the stock (quantity) has changed
+
+
     channel_layer = get_channel_layer()
     group_name = f'product_{instance.id}'
-    print("hi2")
-    # Ensure the group_send call is executed asynchronously using async_to_sync
+
     async_to_sync(channel_layer.group_send)(
         group_name,
         {
-            'type': 'stock_update',  # Type to trigger the method in consumer
-            'stock': instance.quantity,  # Assuming `quantity` holds the stock
+            'type': 'stock_update', 
+            'stock': instance.quantity, 
         }
     )
-    print("hello")
+

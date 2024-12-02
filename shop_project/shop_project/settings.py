@@ -103,10 +103,10 @@ ASGI_APPLICATION = 'shop_project.asgi.application'
 
 
 
-# WebSocket backend (e.g., Redis)
+
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer",  # Use Redis for production
+        "BACKEND": "channels.layers.InMemoryChannelLayer", 
     },
 }
 

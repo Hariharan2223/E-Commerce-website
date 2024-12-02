@@ -43,10 +43,8 @@ class SearchSuggestionConsumer(AsyncWebsocketConsumer):
 
 class ProductStockConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-
         self.product_id = self.scope['url_route']['kwargs']['product_id']
         self.room_group_name = f'product_{self.product_id}'
-
 
         await self.channel_layer.group_add(
             self.room_group_name,
@@ -55,15 +53,12 @@ class ProductStockConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def disconnect(self, close_code):
-
         await self.channel_layer.group_discard(
             self.room_group_name,
             self.channel_name
         )
 
-    # Receive stock updates from the channel layer
     async def stock_update(self, event):
-
         await self.send(text_data=json.dumps({
             'stock': event['stock'],
         }))

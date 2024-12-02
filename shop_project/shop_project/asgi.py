@@ -39,7 +39,7 @@ import os
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
-from shop_app.routing import websocket_urlpatterns  # Adjust for your app name
+from shop_app.routing import websocket_urlpatterns 
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'shop_project.settings')
 
