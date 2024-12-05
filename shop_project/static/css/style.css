@@ -2,9 +2,9 @@
 
 
 .modal {
-    z-index: 1050; /* Bootstrap default for modal */
+    z-index: 1050; 
 }
-/* Apply full viewport height and width to the background */
+
 body, html {
     height: 100%;
     margin: 0;
@@ -24,7 +24,7 @@ body, html {
     background-color: white;
     overflow: hidden;
     width: 300px;
-    position: relative; /* Ensures the suggestions align with this container */
+    position: relative; 
     width: 300px;
 }
 
@@ -48,19 +48,19 @@ body, html {
     background-color: #b464b4;
 } .suggestions {
     position: absolute;
-    top: calc(100% + 2px); /* Slight gap below the search input */
+    top: calc(100% + 2px); 
     left: 0;
-    right: 0; /* Matches the width of the parent container */
+    right: 0;
     background-color: white;
     border: 1px solid #ddd;
     border-top: none;
     max-height: 200px;
     overflow-y: auto;
     z-index: 1000;
-    display: none; /* Hidden by default */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
-    border-radius: 0 0 5px 5px; /* Rounded corners at the bottom */
-    width: 100%; /* Take the width of the search bar */
+    display: none;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+    border-radius: 0 0 5px 5px;
+    width: 100%; 
 }
 
 
@@ -88,10 +88,8 @@ body, html {
 
 
 
-/* Background image styling */
+
 .login-container {
-    /* background: url('/static/images/login.jpg') no-repeat center center fixed;
-    background-size: cover; */
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -104,8 +102,8 @@ body, html {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 500px; /* Adjust the max-width as needed */
-    text-align: center; /* Center contents horizontally */
+    max-width: 500px; 
+    text-align: center; 
 }
 
 h4 {
@@ -120,9 +118,8 @@ h4 {
     border-radius: 4px;
 }
 
-/* Center the button within its wrapper */
 .button-wrapper {
-    margin-top: 20px; /* Adjust margin as needed */
+    margin-top: 20px; 
 }
 
 
@@ -133,7 +130,7 @@ h4 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     overflow: hidden;
-    height: 280px; /* Set the carousel height */
+    height: 280px; 
 }
 
 #productCarousel{
@@ -142,13 +139,13 @@ h4 {
 
 
 .carousel-inner {
-    height: 100%; /* Ensure the inner carousel takes the full height */
+    height: 100%; 
 }
 
 .carousel-item img {
     height: 100%;
-    width: 100%; /* Ensure the image takes the full width */
-    object-fit: cover; /* This ensures the image covers the container while maintaining aspect ratio */
+    width: 100%;
+    object-fit: cover; 
     transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
@@ -181,7 +178,7 @@ h4 {
 a{
     text-decoration: none;
 }
-/* Navbar Background with Deep Purple and Silver Gradient */
+
 .navbar-warning {
     background: linear-gradient(45deg, #4B0082, #C0C0C0) !important;
     background-size: 200% 200%;
@@ -190,22 +187,22 @@ a{
 
 .navbar-brand,
 .navbar-nav .nav-link {
-    color: #ffffff !important; /* White text color */
+    color: #ffffff !important; 
 }
 
-/* Hover Effects for Nav Links */
+
 .navbar-nav .nav-link:hover {
-    background-color: #C0C0C0 !important; /* Silver overlay */
-    color: #4B0082 !important; /* Deep Purple text */
+    background-color: #C0C0C0 !important; 
+    color: #4B0082 !important; 
 }
 
-/* Dropdown Menu Styling */
+
 .dropdown-menu {
     background: linear-gradient(45deg, #4B0082, #C0C0C0) !important;
 }
 
 .dropdown-item {
-    color: #ffffff !important; /* White text color */
+    color: #ffffff !important; 
 }
 
 
@@ -214,8 +211,8 @@ a{
 }
 
 .dropdown-item:hover {
-    background-color: #C0C0C0 !important; /* Silver overlay */
-    color: #4B0082 !important; /* Deep Purple text */
+    background-color: #C0C0C0 !important; 
+    color: #4B0082 !important;
 }
 
 @keyframes gradientAnimation {
@@ -234,12 +231,11 @@ a{
 
 
 
-/* Custom Footer Styling */
 
-/* Footer Background with Indigo and Silver Gradient */
+
 .footer-custom {
-    background: linear-gradient(45deg, #4B0082, #C0C0C0) !important; /* Indigo to Silver gradient */
-    background-size: 600% 600%; /* To make the gradient more dynamic */
+    background: linear-gradient(45deg, #4B0082, #C0C0C0) !important;
+    background-size: 600% 600%;
     animation: gradientAnimation 16s ease infinite;
 }
 
@@ -256,24 +252,23 @@ a{
 }
 
 .footer-custom .text-reset {
-    color: #000000 !important; /* Silver text color for links */
+    color: #000000 !important;
 }
 
 .footer-custom .text-reset:hover {
-    color: #4B0082 !important; /* Indigo color on hover */
+    color: #4B0082 !important; 
 }
 
 .footer-custom h6, .footer-custom p {
-    color: #000000 !important; /* Silver text color */
+    color: #000000 !important;
 }
 
-/* Social Media Icons Hover Effect */
 .footer-custom .fa {
-    color: #000000; /* Silver color */
+    color: #000000; 
 }
 
 .footer-custom .fa:hover {
-    color: #4B0082; /* Indigo color on hover */
+    color: #4B0082; 
 }
 
 

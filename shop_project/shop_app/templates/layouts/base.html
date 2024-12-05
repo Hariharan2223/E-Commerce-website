@@ -38,7 +38,7 @@
 <script>
     const searchInput = document.getElementById("searchInput");
     const suggestionsBox = document.getElementById("suggestions");
-    // WebSocket for dynamic suggestions
+
     const socket = new WebSocket("ws://127.0.0.1:8000/ws/search/");
 
     socket.onopen = () => {
@@ -49,10 +49,8 @@
         const data = JSON.parse(event.data);
 
         if (data.suggestions) {
-            // Clear existing suggestions
             suggestionsBox.innerHTML = "";
 
-            // Populate suggestions
             data.suggestions.forEach((item) => {
                 const suggestionItem = document.createElement("div");
                 suggestionItem.className = "suggestion-item";
@@ -60,8 +58,8 @@
                     <span class="suggestion-name">${item.name}</span>
                 `;
                 suggestionItem.addEventListener("click", () => {
-                    searchInput.value = item.name; // Set clicked suggestion as input value
-                    suggestionsBox.style.display = "none"; // Hide suggestions
+                    searchInput.value = item.name;
+                    suggestionsBox.style.display = "none";
                 });
                 suggestionsBox.appendChild(suggestionItem);
             });
@@ -75,23 +73,22 @@
         if (query) {
             socket.send(JSON.stringify({ query: query }));
         } else {
-            suggestionsBox.style.display = "none"; // Hide suggestions if input is empty
+            suggestionsBox.style.display = "none";
         }
     });
 
-    // Hide suggestions when clicking outside the input box
+ 
     document.addEventListener("click", (event) => {
         if (!event.target.closest(".search-container")) {
             suggestionsBox.style.display = "none";
         }
     });
 
-    // Ensure form submission works
     const searchForm = document.getElementById("searchForm");
     searchForm.addEventListener("submit", (event) => {
         const query = searchInput.value.trim();
         if (!query) {
-            event.preventDefault(); // Prevent empty search
+            event.preventDefault(); 
             alert("Please enter a search query.");
         }
     });

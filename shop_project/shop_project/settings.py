@@ -87,6 +87,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'shop_project.wsgi.application'
 
 
+TIME_ZONE = 'Asia/Kolkata'
+
 
 ASGI_APPLICATION = 'shop_project.asgi.application'
 
@@ -177,12 +179,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+USE_TZ = True
+
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
-USE_TZ = True
-
+USE_L10N = True
 
 
 # # Media files settings
@@ -203,6 +206,8 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
+
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
@@ -225,19 +230,5 @@ DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL')
 # DEFAULT_FROM_EMAIL = 'hariharan2445@gmail.com'
 
 
-
-
-
-
-
 CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq:5672//'
-
-
-
-
-
-
-
-
-
 

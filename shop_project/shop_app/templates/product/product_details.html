@@ -67,19 +67,17 @@ Products | Online Shopping | Result
                 <h5 class="my-2 text-primary">Offer Price: Rs.{{ products.selling_price }}</h5>
                 
                 <div class="my-2">
-                    {% if products.quantity > 0 %}
                     <input type="hidden" value="{{ products.id }}" id="pid">
                     <div class="input-group" style="width:150px;">
                         <button class="input-group-text bg-success text-light" id="btnMinus"><i class="fa fa-minus"></i></button>
                         <input type="text" name="qty" id="txtqty" value="1" class="form-control text-center">
                         <button class="input-group-text bg-success text-light" id="btnPlus"><i class="fa fa-plus"></i></button>
                     </div>
-                    <div id="stockDisplay">Available Stock: {{ products.quantity }}</div>
+                    <input type="hidden" value="{{ products.quantity }}" id="product_stock">
+                    <div id="stockDisplay" style="color: green; display: block;">Available Stock: {{ products.quantity }}</div>
                     <div id="lowStockWarning" style="color: red; display: none;"></div>
                     <button class="btn btn-primary mt-2" id="btnCart"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
-                    {% else %}
-                    <h6 style="color: crimson;">This Product will be available soon..</h6>
-                    {% endif %}
+                    <div id="noStockWarning" style="color: red; display: none;"></div>
                     <button class="btn btn-danger mt-2" id="btnFav"> <i class="fa fa-heart"></i></button>
                 </div>
                 <div>
@@ -190,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         }
     });
     }
-    // const txtqty = document.getElementById("txtqty");
+
     const pid = document.getElementById("pid"); 
     const btnFav = document.getElementById("btnFav"); 
     const btnBuyNow = document.querySelector(".btn-warning");
@@ -198,7 +196,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
     const stockDisplay = document.getElementById('stockDisplay');
     const warningElement = document.getElementById('lowStockWarning');
     const nostock = document.getElementById('noStockWarning');
-    
+    let product_stock = document.getElementById('product_stock').value;
+    if (product_stock < 1){
+        document.getElementById("txtqty").disabled = true;
+        document.getElementById("btnPlus").disabled = true;
+        document.getElementById("btnMinus").disabled = true;
+        document.getElementById("btnCart").disabled = true;
+        nostock.style.display = 'block';
+        nostock.textContent = `stock not available, available soon!`;
+        stockDisplay.style.display = 'none';
+    }else if ((product_stock >0) && (product_stock <6)){
+        warningElement.style.display = 'block';
+        warningElement.textContent = `Warning: Only ${product_stock} left in stock!`;
+    }
 
     const socket = new WebSocket('ws://localhost:8000/ws/stock/{{ products.id }}/');
             socket.onopen = () => {
@@ -206,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             };
 
             socket.onmessage = function (event) {
-                console.log("received message from server");
+                console.log("received message from server and old quantity is",product_stock);
                 console.log("Raw data received:", event.data);
                 let data;
                 try {
@@ -238,10 +248,13 @@ document.addEventListener("DOMContentLoaded", function(event) {
                     // }
 
                     
-                    if ((stockQuantity < 5 ) && (stockQuantity >0)) {
+                    if ((stockQuantity < 6 ) && (stockQuantity >0)) {
                         if (warningElement) {
                             warningElement.style.display = 'block';
                             warningElement.textContent = `Warning: Only ${stockQuantity} left in stock!`;
+                            stockDisplay.style.display = 'block';
+                            stockDisplay.textContent = `Available Stock: ${stockQuantity}`;
+                            nostock.style.display = 'none';
                         }
                     } else {
                         if (warningElement) {
@@ -249,22 +262,36 @@ document.addEventListener("DOMContentLoaded", function(event) {
                         }
                     }
                     if (stockQuantity === 0) {
-                        if (nostock) {
-                            nostock.style.display = 'block';
-                            nostock.textContent = `Currently Out of Stock`;
-                        }
-                        if (stockDisplay) {
-                            stockDisplay.textContent = `Available Stock: 0`;
-                        }
-                    } else {
-                        if (nostock) {
-                            nostock.style.display = 'none';
-                        }
-                        if (stockDisplay) {
-                            stockDisplay.textContent = `Available Stock: ${stockQuantity}`;
-                        }
+                        document.getElementById("txtqty").disabled = true;
+                        document.getElementById("btnPlus").disabled = true;
+                        document.getElementById("btnMinus").disabled = true;
+                        document.getElementById("btnCart").disabled = true;
+                        nostock.style.display = 'block';
+                        nostock.textContent = `stock not available, available soon!`;
+                        stockDisplay.style.display = 'none';
+                    }else if (stockQuantity >5){
+                        document.getElementById("txtqty").disabled = false;
+                        document.getElementById("btnPlus").disabled = false;
+                        document.getElementById("btnMinus").disabled = false;
+                        document.getElementById("btnCart").disabled = false;
+                        nostock.style.display = 'none';
+                        stockDisplay.style.display = 'block';
+                        stockDisplay.textContent = `Available Stock: ${stockQuantity}`;
                     }
-                    displayNotification(`Stock Updated for this item: ${stockQuantity} items available now!`);
+                    console.log(product_stock,stockQuantity ,": - hi")
+                    if (Number(product_stock) === 0 && Number(stockQuantity) > 0) {
+                        displayNotification(`Product is back online: ${stockQuantity} items available now!`);
+                        product_stock = stockQuantity; 
+                        console.log("After update, product_stock is", product_stock);
+                    } else if (stockQuantity === 0) {
+                        displayNotification(`Product goes offline: No items available now!`);
+                        product_stock = stockQuantity;
+                    } else {
+                        displayNotification(`Stock Updated for this item: ${stockQuantity} items available now!`);
+                        product_stock = stockQuantity;
+                    }
+
+                    
                 } else {
                     console.error("Invalid data format received:", data);
                 }

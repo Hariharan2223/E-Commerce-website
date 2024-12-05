@@ -10,7 +10,7 @@ class ProductImageInline(admin.TabularInline):
 
 class products_hariAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline]
-    list_display = ('name', 'vendor', 'quantity', 'original_price', 'selling_price', 'status', 'trending', 'created_at')
+    list_display = ('name', 'vendor', 'quantity', 'original_price', 'selling_price', 'status', 'trending', 'created_at','sale_start_time')
 
 admin.site.register(category_hari, categoryAdmin)
 admin.site.register(products_hari, products_hariAdmin)

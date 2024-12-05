@@ -8,12 +8,13 @@ urlpatterns=[
     path('user/',views.user_page,name="user"),
     path('switch_user/', views.switch_user_form, name='switch_user_form'),
 
+
     # Authentication
     path('register',views.register,name="Register"),
     path('login/',views.login_page,name="login"),
     path('logout/',views.logout_page,name="logout"),
 
-    # collection
+    # collectionchat
     path('collections',views.collections,name="Collections"),
     path('collection/<str:name>/', views.collectionview, name='collection'),
     path('collection/<str:cname>/<str:pname>', views.product_details, name='product_details'),

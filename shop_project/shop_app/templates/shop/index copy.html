@@ -14,12 +14,10 @@ ShopCart | Online Shopping
             
             <h4 class="mb-3 ms-4 fs-2" id="sale-heading" style="display: none;">Wednesday sale is live</h4>
             <hr style="border-color: rgba(157, 84, 189, 0.5);">
-            <div class="container">
+        
             <div class="row gy-3" id="sale-container">
                 
             </div>
-            </div>
-            
             </section>
         </div>
     </div>
@@ -199,88 +197,77 @@ ShopCart | Online Shopping
 
             saleContainer.innerHTML = '';
             console.log(data);
-            let products = [];
-            if (data && Array.isArray(data.products) && data.products.length > 1) {
-                products = data.products;
-            } else if (data && data.length === 1) {
-                products = data;
-                
-            }
-            console.log(products)
-            console.log(products.length)
-            if (products.length > 0) {
-                salestorage.style.display = 'block';
-                saleHeading.style.display = 'block';
-            } else {
-                console.log("No products found.");
-                salestorage.style.display = 'none';
-                saleHeading.style.display = 'none';
-                return; 
-            }
-            
-            
-            if (products.length > 0) {
-                products.forEach(product => {
-                    const timeLeft = product.time_left;
-                    const hours = Math.floor(timeLeft / 3600);
-                    const minutes = Math.floor((timeLeft % 3600) / 60);
-                    const seconds = timeLeft % 60;
 
-                    const productElement = `
-                    
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3 " id="product-${product.name}">
-                            <div class="card h-100 shadow-sm">
-                                <img src="${product.images}" class="card-img-top" style="height: 200px; object-fit: contain;" alt="${product.name}">
-                                <div class="card-body">
-                                    <h5 class="card-title text-primary" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${product.name}</h5>
-                                    <p class="card-text">
-                                        Selling Price: <span class="text-danger fw-bold"><s>Rs. ${product.selling_price}</s></span><br>
-                                        Offer Price: <span class="text-success fw-bold">Rs. ${product.offer_price}</span>
-                                    </p>
-                                    <p class="text-warning fw-bold" id="timer-${product.name}">${hours}h ${minutes}m ${seconds}s left</p>
-                                    <a href="/collection/${product.category_name}/${product.name}" class="btn btn-sm btn-dark w-100">View Product</a>
-                                </div>
+
+            if (data && Array.isArray(data.products) && data.products.length > 0) {
+                // console.log("Data has products:", data.products);
+                // console.log("Number of products:", data.products.length);
+                salestorage.style.display='block';
+                saleHeading.style.display='block';
+            } else {
+                console.log("No products found or products is not an array.");
+            }
+            
+            
+            data.products.forEach(product => {
+                const timeLeft = product.time_left;
+                const hours = Math.floor(timeLeft / 3600);
+                const minutes = Math.floor((timeLeft % 3600) / 60);
+                const seconds = timeLeft % 60;
+
+                const productElement = `
+                    <div class="col-6 col-md-4 col-lg-3" id="product-${product.name}">
+                        <div class="card h-100 shadow-sm">
+                            <img src="${product.images}" class="card-img-top" style="height: 200px; object-fit: contain;" alt="${product.name}">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">${product.name}</h5>
+                                <p class="card-text">
+                                    Selling Price: <span class="text-danger fw-bold"><s>Rs. ${product.selling_price}</s></span><br>
+                                    Offer Price: <span class="text-success fw-bold">Rs. ${product.offer_price}</span>
+                                </p>
+                                <p class="text-warning fw-bold" id="timer-${product.name}">${hours}h ${minutes}m ${seconds}s left</p>
+                                <a href="/collection/${product.category_name}/${product.name}" class="btn btn-sm btn-dark w-100">View Product</a>
                             </div>
                         </div>
+                    </div>
+                `;
 
-                    `;
+                saleContainer.innerHTML += productElement;
 
-                    saleContainer.innerHTML += productElement;
+                
+                let remainingTime = timeLeft;
+                const timer = setInterval(() => {
+                    if (remainingTime > 0) {
+                        remainingTime--;
+                        const hours = Math.floor(remainingTime / 3600);
+                        const minutes = Math.floor((remainingTime % 3600) / 60);
+                        const seconds = remainingTime % 60;
+                        document.getElementById(`timer-${product.name}`).innerText = `${hours}h ${minutes}m ${seconds}s`;
+                    } else {
+                        clearInterval(timer);
+                        document.getElementById(`product-${product.name}`).style.display = 'none';
+                        salestorage.style.display='none';
 
-                    
-                    let remainingTime = timeLeft;
-                    const timer = setInterval(() => {
-                        if (remainingTime > 0) {
-                            remainingTime--;
-                            const hours = Math.floor(remainingTime / 3600);
-                            const minutes = Math.floor((remainingTime % 3600) / 60);
-                            const seconds = remainingTime % 60;
-                            document.getElementById(`timer-${product.name}`).innerText = `${hours}h ${minutes}m ${seconds}s`;
-                        } else {
-                            clearInterval(timer);
-                            document.getElementById(`product-${product.name}`).style.display = 'none';
-                            salestorage.style.display='none';
+                        displayNotification(product.name);
+                        
+                    }
+                }, 1000);
 
-                            displayNotification(`sale ended for product ${product.name}`,"red");
-                            
-                        }
-                    }, 1000);
-
-                    
-                });
-        }
+                
+            });
 
         };
-        function displayNotification(message,color) {
+        function displayNotification(message) {
+
+
+                console.log("entered toast ")
                     Toastify({
                     text: message,  
-                    duration: 3000,  
+                    duration: 8000,  
                     close: true,     
                     gravity: "top",  
                     position: "right",
-                    style: {
-                        background: color 
-                    },
+                    backgroundColor: "green",
                     stopOnFocus: true 
                 }).showToast();
                 }

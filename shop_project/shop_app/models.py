@@ -19,7 +19,9 @@ class category_hari(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+
+
 class products_hari(models.Model):
     category = models.ForeignKey(category_hari, on_delete=models.CASCADE)
     name = models.CharField(max_length=150, null=False, blank=False)
@@ -31,9 +33,11 @@ class products_hari(models.Model):
     status = models.BooleanField(default=False, help_text="0-show,1-Hidden")
     trending = models.BooleanField(default=False, help_text="0-default,1-Trending")
     created_at = models.DateTimeField(auto_now_add=True)
+    sale_start_time = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.name
+
 
 class ProductImage(models.Model):
     product = models.ForeignKey(products_hari, related_name='images', on_delete=models.CASCADE)

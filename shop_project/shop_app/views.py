@@ -18,6 +18,9 @@ from log_module.logging_config import setup_logging
 logger = setup_logging()
 
 
+
+
+
 ## With Redis 
 
 # def collections(request):
@@ -395,6 +398,9 @@ def order_summary(request, order_id):
 
         return render(request, 'error_page.html', {'message': 'Unable to retrieve order summary.'})
 
+from django.utils.timezone import now
+
+
 def home(request):
     try:
 
@@ -419,6 +425,23 @@ def home(request):
 
         logger.info(f"All trending products are listed based on category successfully")
 
+
+        # sale_products_query = products_hari.objects.filter(trending=False)
+        # sale_products = []
+        # logger.info(f"All sales products are listed successfully")
+        # for product in sale_products_query:
+        #     if product.sale_start_time:
+        #         sale_end_time = product.sale_start_time + datetime.timedelta(hours=10)
+        #         time_left = (sale_end_time - now()).total_seconds()
+
+        #         if time_left > 0:
+        #             sale_products.append({
+        #                 'product': product,
+        #                 'time_left': int(time_left),
+        #             })
+        # if sale_products:
+        #     logger.info(f"All sales products are",sale_products)
+
         return render(request, 'shop/index.html', {
             "products": products,
             "mobiles": mobiles,
@@ -426,6 +449,8 @@ def home(request):
             "fashion": fashion,
             "grocery": grocery,
             "electronics": electronics,
+            # 'sale_products': sale_products,
+            
         })
     
     except Exception as e:
@@ -437,6 +462,8 @@ def home(request):
             "fashion": [],
             "grocery": [],
             "electronics": [],
+            'sale_products':[],
+
         })
 
 
