@@ -1,0 +1,277 @@
+{% extends 'layouts/base.html'%}
+{% block title %}
+ShopCart | Online Shopping 
+{% endblock %}
+
+{% block content %}
+{% include 'layouts/message.html' %}
+{% include 'layouts/slider.html'%}
+
+<div class="container" id="sale_storage" style="display: none;">
+    <div class="row" id="sales">
+        <div class="col-12">
+            <section class="bg-light py-4 my-5 fw-1" style=" background: linear-gradient(to right, rgba(192, 192, 192, 0.5), rgba(157, 84, 189, 0.5)) !important;">
+            
+            <h4 class="mb-3 ms-4 fs-2" id="sale-heading" style="display: none;">Wednesday sale is live</h4>
+            <hr style="border-color: rgba(157, 84, 189, 0.5);">
+        
+            <div class="row gy-3" id="sale-container">
+                
+            </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col" style="margin-top: 10px;">
+            <section class="bg-light py-4 my-5 fw-1" style=" background: linear-gradient(to right, rgba(157, 84, 189, 0.5), rgba(192, 192, 192, 0.5)) !important;">
+                <h4 class="mb-3 ms-4 fs-2" >Trending Products</h4>
+                <hr style="border-color: #b8bfc2; margin-left: 25px; margin-right: 25px;">
+                <div class="container">
+                    <div class="row" id="mobile">
+                        <div class="col-12">
+                            <h4 class="mb-3 p-2 text-light" style="background-color: black;">Mobiles</h4>
+                            <hr style="border-color: #b8bfc2;">
+                        </div> 
+                        {% for item in mobiles %}
+                            <div class="col-6 col-md-4 col-lg-3 d-flex">
+                                <a href="{% url 'product_details' item.category.name item.name %}" class="w-100">
+                                    <div class="card my-3">
+                                        <img src="{{ item.images.first.image.url }}" class="card-img-top img-fluid" style="height: 200px; object-fit: contain;" alt="Image of {{ item.name }}">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-primary" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ item.name }}</h5>
+                                            <hr>
+                                            <p class="card-text">
+                                                <span class="float-start fw-bold text-danger">
+                                                    <s>Rs. {{ item.original_price|stringformat:'d' }}</s>
+                                                </span>
+                                                <span class="float-end fw-bold text-light bg-success p-1 rounded-3">
+                                                    Rs. {{ item.selling_price|stringformat:'d' }}
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="row" id="home">
+                        <div class="col-12">
+                            <h4 class="mb-3 p-2 bg-dark text-light" style="background-color: black;">Home Appliances</h4>
+                            <hr style="border-color: #b8bfc2;">
+                        </div>
+                        {% for item in home %}
+                            <div class="col-6 col-md-4 col-lg-3 d-flex">
+                                <a href="{% url 'product_details' item.category.name item.name %}" class="w-100">
+                                    <div class="card my-3">
+                                        <img src="{{ item.images.first.image.url }}" class="card-img-top img-fluid" style="height: 200px; object-fit: contain;" alt="Image of {{ item.name }}">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-primary" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ item.name }}</h5>
+                                            <hr>
+                                            <p class="card-text">
+                                                <span class="float-start fw-bold text-danger">
+                                                    <s>Rs. {{ item.original_price|stringformat:'d' }}</s>
+                                                </span>
+                                                <span class="float-end fw-bold text-light bg-success p-1 rounded-3">
+                                                    Rs. {{ item.selling_price|stringformat:'d' }}
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="row" id="fashion">
+                        <div class="col-12">
+                            <h4 class="mb-3 p-2 bg-dark text-light" style="background-color: black;">Fashion Products</h4>
+                            <hr style="border-color: #b8bfc2;">
+                        </div>
+                        {% for item in fashion %}
+                            <div class="col-6 col-md-4 col-lg-3 d-flex">
+                                <a href="{% url 'product_details' item.category.name item.name %}" class="w-100">
+                                    <div class="card my-3">
+                                        <img src="{{ item.images.first.image.url }}" class="card-img-top img-fluid" style="height: 200px; object-fit: contain;" alt="Image of {{ item.name }}">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-primary" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ item.name }}</h5>
+                                            <hr>
+                                            <p class="card-text">
+                                                <span class="float-start fw-bold text-danger">
+                                                    <s>Rs. {{ item.original_price|stringformat:'d' }}</s>
+                                                </span>
+                                                <span class="float-end fw-bold text-light bg-success p-1 rounded-3">
+                                                    Rs. {{ item.selling_price|stringformat:'d' }}
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="row" id="grocery">
+                        <div class="col-12">
+                            <h4 class="mb-3 p-2 bg-dark text-light" style="background-color: black;">Groceries</h4>
+                            <hr style="border-color: #b8bfc2;">
+                        </div>
+                        {% for item in grocery %}
+                            <div class="col-6 col-md-4 col-lg-3 d-flex">
+                                <a href="{% url 'product_details' item.category.name item.name %}" class="w-100">
+                                    <div class="card my-3">
+                                        <img src="{{ item.images.first.image.url }}" class="card-img-top img-fluid" style="height: 200px; object-fit: contain;" alt="Image of {{ item.name }}">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-primary" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ item.name }}</h5>
+                                            <hr>
+                                            <p class="card-text">
+                                                <span class="float-start fw-bold text-danger">
+                                                    <s>Rs. {{ item.original_price|stringformat:'d' }}</s>
+                                                </span>
+                                                <span class="float-end fw-bold text-light bg-success p-1 rounded-3">
+                                                    Rs. {{ item.selling_price|stringformat:'d' }}
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="row" id="electronics">
+                        <div class="col-12">
+                            <h4 class="mb-3 p-2 bg-dark text-light" style="background-color: black;">Electronics</h4>
+                            <hr style="border-color: #b8bfc2;">
+                        </div>
+                        {% for item in electronics %}
+                            <div class="col-6 col-md-4 col-lg-3 d-flex">
+                                <a href="{% url 'product_details' item.category.name item.name %}" class="w-100">
+                                    <div class="card my-3">
+                                        <img src="{{ item.images.first.image.url }}" class="card-img-top img-fluid" style="height: 200px; object-fit: contain;" alt="Image of {{ item.name }}">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-primary" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ item.name }}</h5>
+                                            <hr>
+                                            <p class="card-text">
+                                                <span class="float-start fw-bold text-danger">
+                                                    <s>Rs. {{ item.original_price|stringformat:'d' }}</s>
+                                                </span>
+                                                <span class="float-end fw-bold text-light bg-success p-1 rounded-3">
+                                                    Rs. {{ item.selling_price|stringformat:'d' }}
+                                                </span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        sale_ended_product=[]
+        const saleSocket = new WebSocket(
+            'ws://127.0.0.1:8000/ws/sale/'
+        );
+
+        saleSocket.onopen = ()=> {
+            console.log("WebSocket connection for sales is made successfully");
+
+        };
+
+        saleSocket.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            const saleContainer = document.getElementById('sale-container');
+            const salestorage= document.getElementById('sale_storage');
+            const saleHeading = document.getElementById('sale-heading');
+
+            saleContainer.innerHTML = '';
+            console.log(data);
+
+
+            if (data && Array.isArray(data.products) && data.products.length > 0) {
+                // console.log("Data has products:", data.products);
+                // console.log("Number of products:", data.products.length);
+                salestorage.style.display='block';
+                saleHeading.style.display='block';
+            } else {
+                console.log("No products found or products is not an array.");
+            }
+            
+            
+            data.products.forEach(product => {
+                const timeLeft = product.time_left;
+                const hours = Math.floor(timeLeft / 3600);
+                const minutes = Math.floor((timeLeft % 3600) / 60);
+                const seconds = timeLeft % 60;
+
+                const productElement = `
+                    <div class="col-6 col-md-4 col-lg-3" id="product-${product.name}">
+                        <div class="card h-100 shadow-sm">
+                            <img src="${product.images}" class="card-img-top" style="height: 200px; object-fit: contain;" alt="${product.name}">
+                            <div class="card-body">
+                                <h5 class="card-title text-primary">${product.name}</h5>
+                                <p class="card-text">
+                                    Selling Price: <span class="text-danger fw-bold"><s>Rs. ${product.selling_price}</s></span><br>
+                                    Offer Price: <span class="text-success fw-bold">Rs. ${product.offer_price}</span>
+                                </p>
+                                <p class="text-warning fw-bold" id="timer-${product.name}">${hours}h ${minutes}m ${seconds}s left</p>
+                                <a href="/collection/${product.category_name}/${product.name}" class="btn btn-sm btn-dark w-100">View Product</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                saleContainer.innerHTML += productElement;
+
+                
+                let remainingTime = timeLeft;
+                const timer = setInterval(() => {
+                    if (remainingTime > 0) {
+                        remainingTime--;
+                        const hours = Math.floor(remainingTime / 3600);
+                        const minutes = Math.floor((remainingTime % 3600) / 60);
+                        const seconds = remainingTime % 60;
+                        document.getElementById(`timer-${product.name}`).innerText = `${hours}h ${minutes}m ${seconds}s`;
+                    } else {
+                        clearInterval(timer);
+                        document.getElementById(`product-${product.name}`).style.display = 'none';
+                        salestorage.style.display='none';
+
+                        displayNotification(product.name);
+                        
+                    }
+                }, 1000);
+
+                
+            });
+
+        };
+        function displayNotification(message) {
+
+
+                console.log("entered toast ")
+                    Toastify({
+                    text: message,  
+                    duration: 8000,  
+                    close: true,     
+                    gravity: "top",  
+                    position: "right",
+                    backgroundColor: "green",
+                    stopOnFocus: true 
+                }).showToast();
+                }
+    });
+</script>
+
+{% endblock %}
